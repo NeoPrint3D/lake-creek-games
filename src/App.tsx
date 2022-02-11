@@ -9,6 +9,13 @@ import {
   setDoc,
 } from "firebase/firestore/lite";
 
+interface Games {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+}
+
 function App() {
   const [user, setUser] = useState({
     uid: "",
@@ -16,7 +23,7 @@ function App() {
     email: "",
     photoURL: "",
   });
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState<Games[] | []>([]);
 
   useEffect(() => {
     auth.onAuthStateChanged((res) => {
@@ -42,10 +49,16 @@ function App() {
 
   useEffect(() => {
     getDocs(collection(db, "games")).then((res) => {
-      setGames(res.docs.map((doc) => doc.data()));
-      console.log(games);
+      setGames(
+        res.docs.map((doc) => ({
+          id: doc.id,
+          name: doc.data()?.name,
+          description: doc.data()?.description,
+          image: doc.data()?.image,
+        }))
+      );
     });
-  }, [auth.currentUser]);
+  }, []);
 
   return (
     <div className="bg-gradient-to-tr from-blue-500 to-purple-900 h-screen  overflow-y-auto ">
@@ -59,9 +72,9 @@ function App() {
       </header>
       <main>
         {games.map((game) => (
-          <div className="bg-white shadow-lg rounded-lg p-4 m-4">
+          <div className="bg-yellow-500 shadow-lg rounded-lg p-4 m-4">
             <h2 className="text-2xl font-bold">{game.name}</h2>
-            <img src={game.img} alt="" />
+            <img src={game.image} alt="" />
             <p>{game.description}</p>
           </div>
         ))}
