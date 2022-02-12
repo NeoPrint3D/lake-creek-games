@@ -8,7 +8,7 @@ function SignIn() {
     signInWithPopup(auth, provider).then((result) => {
       setDoc(doc(db, "users", result.user.uid), {
         uid: result.user.uid,
-        displayName: result.user.displayName,
+        name: result.user.displayName,
         email: result.user.email,
         photoURL: result.user.photoURL,
       });
@@ -18,7 +18,7 @@ function SignIn() {
   return (
     <div className="flex">
       <button
-        className="bg-blue-700 hover:bg-blue-900 text-white font-bold p-4 rounded-3xl text-sm"
+        className="bg-blue-900 hover:bg-slate-800 text-white font-bold p-4 rounded-3xl text-sm"
         onClick={googleSignIn}
       >
         Sign in with Google
@@ -36,7 +36,7 @@ function SignOut() {
   return (
     <div>
       <button
-        className="bg-blue-700 hover:bg-blue-900 text-white font-bold p-4 rounded-3xl"
+        className="bg-blue-900 hover:bg-slate-800 text-white font-bold p-4 rounded-3xl"
         onClick={googleSignOut}
       >
         Sign Out

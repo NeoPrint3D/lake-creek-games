@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_MSG_ID: string;
   readonly VITE_APP_ID: string;
   readonly VITE_MESG_ID: string;
+
 }
 
 interface ImportMeta {
