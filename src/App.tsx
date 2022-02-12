@@ -16,10 +16,17 @@ interface Games {
   image: string;
 }
 
+interface User {
+  uid: string;
+  name: string;
+  email: string;
+  photoURL: string;
+}
+
 function App() {
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     uid: "",
-    displayName: "",
+    name: "",
     email: "",
     photoURL: "",
   });
@@ -32,14 +39,14 @@ function App() {
           ? getDoc(doc(db, "users", res.uid)).then((doc) => {
               setUser({
                 uid: doc.data()?.uid,
-                displayName: doc.data()?.displayName,
+                name: doc.data()?.displayName,
                 email: doc.data()?.email,
                 photoURL: doc.data()?.photoURL,
               });
             })
           : setUser({
               uid: "",
-              displayName: "",
+              name: "",
               email: "",
               photoURL: "",
             });
