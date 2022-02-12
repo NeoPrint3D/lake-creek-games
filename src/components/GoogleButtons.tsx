@@ -29,9 +29,14 @@ function SignIn() {
 
 function SignOut() {
   const googleSignOut = () => {
-    signOut(auth).then(() => {
-      console.log("success");
-    });
+    if (window.confirm("Are you sure you want to sign out?")) {
+      signOut(auth).then(() => {
+        console.log("success");
+        window.location.reload();
+      });
+    } else {
+      console.log("cancelled");
+    }
   };
   return (
     <div>
