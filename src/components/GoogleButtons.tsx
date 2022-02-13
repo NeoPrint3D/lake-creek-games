@@ -32,7 +32,7 @@ function SignOut() {
     if (window.confirm("Are you sure you want to sign out?")) {
       signOut(auth).then(() => {
         console.log("success");
-        window.location.reload();
+        window.location.href="/";
       });
     } else {
       console.log("cancelled");

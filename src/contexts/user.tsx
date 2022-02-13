@@ -23,6 +23,7 @@ function UserProvider({ children }: Props) {
 
   useEffect(() => {
     auth.onAuthStateChanged((res) => {
+      console.log(res.uid);
       {
         res
           ? getDoc(doc(db, "users", res.uid)).then((doc) => {
