@@ -1,12 +1,18 @@
-interface Games {
-  id: string;
-  name: string;
+interface Game {
+  author: string;
+  authorName: string;
+  authorPhoto: string;
+  title: string;
   description: string;
-  image: string;
+  thumbnail: string;
+  gameFileUrl: string;
+  createdAt: string;
+  id: string;
 }
 interface User {
   uid: string;
   name: string;
   email: string;
   photoURL: string;
+  role: string;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ClassicElement, useEffect, useState } from "react";
 import JSZip from "jszip";
 
 import { storage, db, auth } from "../utils/firebase";
@@ -65,13 +65,9 @@ function Upload() {
       } else {
         zip.file(merged[i].name, merged[i]);
       }
-      //if image zip it to the image folder
     }
 
-    //generate the zip
-    const blob = await zip.generateAsync({ type: "blob" });
-    console.log(zip);
-    //upload the zip
+    const blob: Blob = await zip.generateAsync({ type: "blob" });
 
     const gameFileUrl = new Promise((resolve, reject) => {
       uploadBytesResumable(

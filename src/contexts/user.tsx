@@ -11,14 +11,16 @@ const UserContext = createContext<User>({
   name: "",
   photoURL: "",
   email: "",
+  role: "",
 });
 
 function UserProvider({ children }: Props) {
   const [user, setUser] = useState({
-    uid: "",
     name: "",
-    email: "",
     photoURL: "",
+    email: "",
+    uid: "",
+    role: "",
   });
 
   useEffect(() => {
@@ -31,6 +33,7 @@ function UserProvider({ children }: Props) {
                 name: doc.data()?.name,
                 email: doc.data()?.email,
                 photoURL: doc.data()?.photoURL,
+                role: doc.data()?.role,
               });
             })
           : setUser({
@@ -38,8 +41,10 @@ function UserProvider({ children }: Props) {
               name: "",
               email: "",
               photoURL: "",
+              role: "",
             });
       }
+      console.log(auth.currentUser);
     });
   }, [auth.currentUser]);
 

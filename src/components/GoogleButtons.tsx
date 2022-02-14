@@ -1,24 +1,27 @@
 import { auth, db } from "../utils/firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { doc, setDoc } from "firebase/firestore/lite";
 
 function SignIn() {
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).then((result) => {
-      setDoc(doc(db, "users", result.user.uid), {
-        uid: result.user.uid,
-        name: result.user.displayName,
-        email: result.user.email,
-        photoURL: result.user.photoURL,
-      });
+    const res = await signInWithPopup(auth, provider);
+    console.log(res);
+    const user = res.user;
+    //add the data to the user and have a subcollection of private with roles
+    setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      role: "user",
     });
   };
 
   return (
     <div className="flex">
       <button
-        className="bg-blue-900 hover:bg-slate-800 text-white font-bold p-4 rounded-3xl text-sm"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-4 rounded-3xl text-sm"
         onClick={googleSignIn}
       >
         Sign in with Google
@@ -32,7 +35,7 @@ function SignOut() {
     if (window.confirm("Are you sure you want to sign out?")) {
       signOut(auth).then(() => {
         console.log("success");
-        window.location.href="/";
+        window.location.href = "/";
       });
     } else {
       console.log("cancelled");
@@ -41,7 +44,7 @@ function SignOut() {
   return (
     <div>
       <button
-        className="bg-blue-900 hover:bg-slate-800 text-white font-bold p-4 rounded-3xl"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-4 rounded-3xl"
         onClick={googleSignOut}
       >
         Sign Out

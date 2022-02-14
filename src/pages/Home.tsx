@@ -3,12 +3,10 @@ import { getDocs, collection } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 
 function Home() {
-  const [games, setGames] = useState<Games[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
+  
   useEffect(() => {
-    getDocs(collection(db, "users")).then((res) => {
-        
-
-    });
+    ""
   }, []);
 
   return <main></main>;
