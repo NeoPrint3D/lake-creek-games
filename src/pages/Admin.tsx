@@ -22,44 +22,58 @@ function Admin() {
     }
   }, [selected]);
 
-  return currentUser?.role === "admin" ||
-    currentUser?.uid === import.meta.env.VITE_ADMIN_UID ? (
-    <div className="flex flex-col my-5">
-      <div className="flex justify-center">
-        <select
-          className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4"
-          onChange={(e) => setSelected(e.target.value)}
-        >
-          <option value="game">Games</option>
-          <option value="user">Users</option>
-        </select>
-      </div>
-      {selected === "games" ? (
-        <div className="flex flex-col items-center">
-          {games.map((game) => (
-            <div key={game.id} className="flex flex-col bg-blue-500 rounded-2xl w-3/4 p-5 my-96">
-              <div className="flex justify-center">
-                <h5>{game.title}</h5>
+  return (
+    <div className=" min-h-screen">
+      {currentUser?.role === "admin" ||
+      currentUser?.uid === import.meta.env.VITE_ADMIN_UID ? (
+        <div className="flex flex-col my-5">
+          <div className="flex justify-center">
+            <select
+              className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4"
+              onChange={(e) => setSelected(e.target.value)}
+            >
+              <option value="game">Games</option>
+              <option value="user">Users</option>
+            </select>
+          </div>
+          <div>
+            {selected === "games" ? (
+              <div className="flex flex-col items-center">
+                {games.map((game) => (
+                  <div
+                    key={game.id}
+                    className="flex flex-col bg-blue-500 rounded-2xl w-3/4 p-5 my-5"
+                  >
+                    <div className="flex justify-center">
+                      <h5>{game.title}</h5>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
+            ) : (
+              <div className="flex flex-col">
+                {users.map((user) => (
+                  <div key={user.uid} className="flex flex-col my-5">
+                    <div className="flex justify-center">
+                      <img
+                        className="rounded-full h-16"
+                        src={user.photoURL}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col">
-          {users.map((user) => (
-            <div key={user.uid} className="flex flex-col my-96">
-              <div className="flex justify-center">
-                <img className="rounded-full h-16" src={user.photoURL} alt="" />
-              </div>
-            </div>
-          ))}
-        </div>
+        <main>
+          <h1>You are not authorized to view this page</h1>
+        </main>
       )}
     </div>
-  ) : (
-    <main>
-      <h1>Not admin</h1>
-    </main>
   );
 }
+
 export default Admin;

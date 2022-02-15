@@ -10,7 +10,6 @@ main {
   @apply flex justify-center items-center w-full  gap-5;
 }
 
-.scrolled {
-  position: fixed;
-  top: 0;
+.sticky-top {
+  @apply fixed top-0 z-10;
 }

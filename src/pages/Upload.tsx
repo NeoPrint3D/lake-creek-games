@@ -138,7 +138,7 @@ function Upload() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-5">
+    <main className="flex flex-col">
       {!isDone && progress > 0 && (
         <div className="flex flex-col items-start justify-center fixed h-screen">
           <div className="flex flex-col items-center justify-center bg-purple-500 p-3 rounded-xl shadow-2xl">
@@ -223,7 +223,7 @@ function Upload() {
           />
         </div>
       </form>
-    </div>
+    </main>
   );
 }
 
