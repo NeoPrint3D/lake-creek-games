@@ -15,7 +15,7 @@ const UserContext = createContext<User>({
 });
 
 function UserProvider({ children }: Props) {
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     name: "",
     photoURL: "",
     email: "",
@@ -44,7 +44,6 @@ function UserProvider({ children }: Props) {
               role: "",
             });
       }
-      console.log(auth.currentUser);
     });
   }, [auth.currentUser]);
 

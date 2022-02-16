@@ -6,7 +6,6 @@ function SignIn() {
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     const res = await signInWithPopup(auth, provider);
-    console.log(res);
     const user = res.user;
     //add the data to the user and have a subcollection of private with roles
     setDoc(doc(db, "users", user.uid), {

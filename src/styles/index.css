@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  @apply w-4
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-gradient-to-b from-yellow-500 to-yellow-300
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-500 rounded-2xl hover:bg-blue-700
+}
+
 main {
   @apply h-[calc(100vh-6rem)] flex justify-center items-center;
 }

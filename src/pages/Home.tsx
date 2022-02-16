@@ -6,7 +6,11 @@ function Home() {
   const [games, setGames] = useState<Game[]>([]);
   
   useEffect(() => {
-    ""
+    getDocs(collection(db, "games")).then((res) => {
+      setGames(res.docs.map((doc) => doc.data()) as Game[]);
+      console.log(games);
+    });
+
   }, []);
 
   return <main></main>;

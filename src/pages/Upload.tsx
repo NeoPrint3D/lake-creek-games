@@ -1,4 +1,4 @@
-import { ClassicElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import JSZip from "jszip";
 
 import { storage, db, auth } from "../utils/firebase";
@@ -8,6 +8,8 @@ import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore/lite";
 
 import { uid as id } from "uid";
+import { saveAs } from "file-saver";
+import sendEmail from "../utils/sendEmail";
 
 //import the id library
 
@@ -54,18 +56,20 @@ function Upload() {
     //add the files to the zip
 
     for (let i = 0; i < merged.length; i++) {
-      if (merged[i].name.includes(".png") || merged[i].name.includes(".jpg")) {
-        //get the parent directory
-        const parent = merged[i].webkitRelativePath.split("/");
-        {
-          parent.length > 1
-            ? zip.folder(parent[1])?.file(merged[i].name, merged[i])
-            : zip.file(merged[i].name, merged[i]);
+      const parent = merged[i].webkitRelativePath.split("/");
+      if (parent.length > 2) {
+        if (parent[1] === ".git") {
+          continue;
         }
+        zip.folder(parent[1])?.file(merged[i].name, merged[i]);
       } else {
         zip.file(merged[i].name, merged[i]);
       }
     }
+
+    console.log(zip);
+
+    //send the zip to the user
 
     const blob: Blob = await zip.generateAsync({ type: "blob" });
 
@@ -94,7 +98,7 @@ function Upload() {
     });
 
     //upload the thumbnail as a promise
-    const thumbnailPromise = new Promise((resolve, reject) => {
+    const thumbnailUrl = new Promise((resolve, reject) => {
       uploadBytesResumable(
         ref(storage, `/pendingGames/${cleanTitle}-${ID}/thumbnail.png`),
         thumbnail[0]
@@ -119,7 +123,7 @@ function Upload() {
       );
     });
 
-    const thumbnailURL = await thumbnailPromise;
+    const thumbnailURL = await thumbnailUrl;
     const gameFileURL = await gameFileUrl;
 
     await setDoc(doc(db, `/pendingGames/${cleanTitle}-${ID}`), {
@@ -127,18 +131,27 @@ function Upload() {
       title,
       description,
       gameFileUrl: gameFileURL,
-      thumbnail: thumbnailURL,
+      thumbnail: thumbnailURL || "",
       author: auth.currentUser?.uid,
       authorPhoto: auth.currentUser?.photoURL,
       authorName: auth.currentUser?.displayName,
+      authorEmail: auth.currentUser?.email,
       createdAt: serverTimestamp(),
     });
     setProgress(0);
     setIsDone(true);
+    sendEmail(
+      "lakecreekgames@gmail.com",
+      `${auth.currentUser?.displayName} has submitted a game`,
+      `${auth.currentUser?.displayName} has submitted a game. Please review it and approve it.`
+    );
+
+    alert("Thank you for your submission! We will review it shortly.");
+    window.location.href = "/";
   };
 
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col items-center my-10">
       {!isDone && progress > 0 && (
         <div className="flex flex-col items-start justify-center fixed h-screen">
           <div className="flex flex-col items-center justify-center bg-purple-500 p-3 rounded-xl shadow-2xl">
@@ -155,7 +168,7 @@ function Upload() {
         </div>
       )}
 
-      <div className="my-5">
+      <div className="mb-5">
         <h5 className="text-5xl font-bold">Upload</h5>
       </div>
 
@@ -208,6 +221,8 @@ function Upload() {
           <input
             type="file"
             //plain blue buttoon
+            //disclude any .git .idea .DS_Store .gitignore .gitmodules .vscode .vscodeignore .vscodeignore
+            pattern="(?!.*(\.git|\.idea|\.DS_Store|\.gitignore|\.gitmodules|\.vscode|\.vscodeignore|\.vscodeignore)).*"
             className="bg-blue-500 w-96 max-w-sm p-3 text-white text-xl font-bold rounded-2xl hover:bg-blue-900 file:border-0 file:rounded-2xl file:bg-transparent file:text-white"
             onChange={(e) => setGameFiles(e.target.files as any)}
             //@ts-ignore
@@ -223,7 +238,7 @@ function Upload() {
           />
         </div>
       </form>
-    </main>
+    </div>
   );
 }
 

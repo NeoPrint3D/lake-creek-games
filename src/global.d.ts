@@ -2,6 +2,7 @@ interface Game {
   author: string;
   authorName: string;
   authorPhoto: string;
+  authorEmail: string;
   title: string;
   description: string;
   thumbnail: string;

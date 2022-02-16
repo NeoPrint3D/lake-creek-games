@@ -9,9 +9,11 @@
     "deploy": "tsc && vite build && firebase deploy"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "daisyui": "^1.25.4",
     "file-saver": "^2.0.5",
     "firebase": "^9.6.6",
+    "nodemailer": "^6.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-headroom": "^3.2.0",

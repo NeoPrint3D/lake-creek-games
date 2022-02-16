@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_ID: string;
   readonly VITE_MESG_ID: string;
   readonly VITE_ADMIN_UID: string;
+  readonly VITE_HASH_KEY: string;
+  readonly VITE_EMAIL_API_KEY: string;
 
 }
 
