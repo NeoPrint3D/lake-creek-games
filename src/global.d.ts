@@ -9,6 +9,10 @@ interface Game {
   gameFileUrl: string;
   createdAt: string;
   id: string;
+  likedBy: string[];
+  likes: number;
+  dislikes: number;
+  views: number;
 }
 interface User {
   uid: string;
@@ -16,4 +20,6 @@ interface User {
   email: string;
   photoURL: string;
   role: string;
+  createdAt: string;
+  likedGames: string[];
 }

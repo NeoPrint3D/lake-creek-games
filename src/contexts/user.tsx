@@ -12,6 +12,7 @@ const UserContext = createContext<User>({
   photoURL: "",
   email: "",
   role: "",
+  createdAt: "",
 });
 
 function UserProvider({ children }: Props) {
@@ -21,6 +22,7 @@ function UserProvider({ children }: Props) {
     email: "",
     uid: "",
     role: "",
+    createdAt:"",
   });
 
   useEffect(() => {
@@ -34,6 +36,7 @@ function UserProvider({ children }: Props) {
                 email: doc.data()?.email,
                 photoURL: doc.data()?.photoURL,
                 role: doc.data()?.role,
+                createdAt: doc.data()?.createdAt,
               });
             })
           : setUser({
@@ -42,6 +45,7 @@ function UserProvider({ children }: Props) {
               email: "",
               photoURL: "",
               role: "",
+              createdAt: "",
             });
       }
     });

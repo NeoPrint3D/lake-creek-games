@@ -93,6 +93,10 @@ function Admin() {
       gameFileUrl: newGameUrl,
       thumbnail: await getThumbnailUrl(),
       approvedTime: serverTimestamp(),
+      author: game.author,
+      authorName: game.authorName,
+      authorEmail: game.authorEmail,
+      authorPhoto: game.authorPhoto,
     });
     await deleteFolder(`pendingGames/${game.id}`);
     await deleteDoc(doc(db, "pendingGames", game.id));
@@ -107,7 +111,6 @@ function Admin() {
   }
 
   useEffect(() => {
-    console.log(selected);
     if (selected === "games" && games.length === 0) {
       getDocs(collection(db, "pendingGames")).then((res) => {
         setGames(res.docs.map((doc) => doc.data()) as Game[]);
@@ -186,9 +189,11 @@ function Admin() {
           </div>
         </div>
       ) : (
-        <main>
-          <h1>You are not authorized to view this page</h1>
-        </main>
+        <div className="h-screen w-screen fixed flex justify-center items-center -translate-y-10">
+          <h1 className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4">
+            You are not authorized to view this page
+          </h1>
+        </div>
       )}
     </div>
   );

@@ -1,50 +1,80 @@
-import { useContext, useEffect, useRef, useState, useCallback } from "react";
+import { useContext, useEffect, useRef, useCallback } from "react";
 import { UserContext } from "../contexts/user";
 import { SignIn, SignOut } from "../components/GoogleButtons";
-import { MdCloudUpload } from "react-icons/md";
+import { MdCloudUpload, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 //@ts-ignore
 import Headroom from "react-headroom";
 
 function Header() {
   const user = useContext(UserContext);
+  //add sticky to the header when the user scrolls up uing react hooks
 
   return (
-    <Headroom
-      style={{
-        //add animation of fade in
-        transition: "all 0.5s ease-in-out",
-      }}
-    >
+    <Headroom>
       <header
-        className={`w-full grid grid-cols-3 h-24 items-center bg-gradient-to-b from-yellow-500 to-yellow-400 rounded-b-xl shadow-2xl`}
+        className={`w-full grid grid-cols-5 h-24 items-center  rounded-b-xl shadow-2xl bg-gradient `}
       >
-        <div className="ml-3">{!user?.uid ? <SignIn /> : <SignOut />}</div>
-        <Link to="/" className="text-4xl font-bold text-center text-white">
+        <Link
+          to="/"
+          className="col-span-3 text-xl sm:text-4xl  font-bold  text-white text-left pl-5"
+        >
           Lake Creek Games
         </Link>
 
-        <div className=" flex justify-end mr-3">
-          {user?.uid && (
-            <div className="flex items-center gap-10">
-              <Link to="/upload">
-                <MdCloudUpload className="text-6xl text-blue-500 hover:text-blue-900" />{" "}
-              </Link>
-
-              <Link
-                to={
-                  user?.role === "admin" ||
-                  user?.uid === import.meta.env.VITE_ADMIN_UID
-                    ? "/admin"
-                    : "/"
-                }
-              >
-                <img
-                  className="rounded-full h-16"
-                  src={user?.photoURL}
-                  alt=""
+        <div className="flex justify-end col-span-2">
+          {user?.uid ? (
+            //if the user is logged in
+            <div className="flex items-center gap-5">
+              <Link to="" className="p-1">
+                <MdSearch
+                  className="text-6xl text-blue-500 hover:text-blue-700  h-8 w-8 sm:w-16 sm:h-16"
+                  size={60}
                 />
               </Link>
+              <Link to="/upload" className="p-1">
+                <MdCloudUpload
+                  className="text-6xl text-blue-500 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
+                  size={60}
+                />
+              </Link>
+
+              <div className="mr-2 hover:bg-yellow-200 p-1 rounded-2xl ">
+                <div className="dropdown dropdown-hover dropdown-end">
+                  <img
+                    src={user.photoURL}
+                    alt=""
+                    className=" sm:w-16 sm:h-16 rounded-full"
+                  />
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content w-52  p-3 rounded-2xl shadow-2xl  bg-gradient"
+                  >
+                    {user.role === "admin" ||
+                      (user.uid === import.meta.env.VITE_ADMIN_UID && (
+                        <li className="text-center">
+                          <Link to="/admin" className="text-xl text-white">
+                            Admin
+                          </Link>
+                        </li>
+                      ))}
+                    <div className="flex justify-center">
+                      <SignOut />
+                    </div>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : (
+            //non logged in user
+            <div className="flex items-center mr-5 gap-5">
+              <Link to="" className="p-1">
+                <MdSearch
+                  className="text-6xl text-blue-500 hover:text-blue-700  h-8 w-8 sm:w-16 sm:h-16"
+                  size={60}
+                />
+              </Link>
+              <SignIn />
             </div>
           )}
         </div>

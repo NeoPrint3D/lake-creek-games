@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import JSZip from "jszip";
 
 import { storage, db, auth } from "../utils/firebase";
@@ -8,12 +8,13 @@ import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore/lite";
 
 import { uid as id } from "uid";
-import { saveAs } from "file-saver";
 import sendEmail from "../utils/sendEmail";
 
+import { UserContext } from "../contexts/user";
 //import the id library
 
 function Upload() {
+  const currentUser = useContext(UserContext);
   const [thumbnail, setThumbnail] = useState<File[]>([]);
   const [progress, setProgress] = useState(0);
   const [title, setTitle] = useState("");
@@ -137,6 +138,10 @@ function Upload() {
       authorName: auth.currentUser?.displayName,
       authorEmail: auth.currentUser?.email,
       createdAt: serverTimestamp(),
+      likes: 0,
+      dislikes: 0,
+      views: 0,
+      likedBy: [],
     });
     setProgress(0);
     setIsDone(true);
@@ -150,8 +155,8 @@ function Upload() {
     window.location.href = "/";
   };
 
-  return (
-    <div className="flex flex-col items-center my-10">
+  return currentUser.uid ? (
+    <div className="flex flex-col items-center my-10 text-white">
       {!isDone && progress > 0 && (
         <div className="flex flex-col items-start justify-center fixed h-screen">
           <div className="flex flex-col items-center justify-center bg-purple-500 p-3 rounded-xl shadow-2xl">
@@ -180,7 +185,7 @@ function Upload() {
             : alert("Please login to upload");
         }}
       >
-        <div className="form-control">
+        <div className="flex flex-col">
           <label className="text ">
             <span className="text-2xl">Title</span>
           </label>
@@ -192,7 +197,7 @@ function Upload() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="form-control">
+        <div className="flex flex-col">
           <label className="label">
             <span className="text-2xl">Description</span>
           </label>
@@ -203,7 +208,7 @@ function Upload() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="form-control">
+        <div className="flex flex-col">
           <label className="label">
             <span className="text-2xl">Thumbnail</span>
           </label>
@@ -214,7 +219,7 @@ function Upload() {
             onChange={(e) => setThumbnail(e.target.files as any)}
           />
         </div>
-        <div className="form-control">
+        <div className="flex flex-col">
           <label className="label">
             <span className="text-2xl">Game File</span>
           </label>
@@ -230,14 +235,25 @@ function Upload() {
             multiple={true}
           />
         </div>
-        <div className="form-control mt-10">
+        <div className="flex flex-col mt-10">
           <input
             className="bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold p-3 rounded-2xl disabled:bg-gray-500/40"
             type="submit"
-            disabled={!title || !description || !thumbnail || !gameFiles}
+            disabled={
+              !title ||
+              !description ||
+              gameFiles.length == 0 ||
+              thumbnail.length == 0
+            }
           />
         </div>
       </form>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center justify-center min-h-screen -translate-y-10">
+      <h1 className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4">
+        You are not authorized to view this page
+      </h1>
     </div>
   );
 }
