@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore/lite";
+import { getFirestore } from "firebase/firestore";
 import { getPerformance } from "firebase/performance";
 import { getStorage } from "firebase/storage";
 
@@ -19,8 +19,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 //type the auth and firestore functions
 const auth = getAuth();
-const db = getFirestore(app);
+const firestore = getFirestore(app);
 const performance = getPerformance(app);
 const storage = getStorage(app);
 
-export { analytics, auth, db, performance, storage };
+export { analytics, auth, firestore, performance, storage };

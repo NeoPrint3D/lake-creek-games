@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { auth, db, storage } from "../utils/firebase";
+import { auth, firestore, storage } from "../utils/firebase";
 import {
   getDocs,
   collection,
@@ -7,7 +7,7 @@ import {
   doc,
   deleteDoc,
   setDoc,
-} from "firebase/firestore/lite";
+} from "firebase/firestore";
 import { UserContext } from "../contexts/user";
 import {
   ref,
@@ -19,6 +19,8 @@ import {
 } from "firebase/storage";
 
 import sendEmail from "../utils/sendEmail";
+import { encrypt } from "../utils/encryption";
+import { createIndex } from "../utils/indexer";
 
 function Admin() {
   const currentUser = useContext(UserContext);
@@ -31,7 +33,7 @@ function Admin() {
   function denyGame(game: Game) {
     //delete the game and send a notification to the user
     if (window.confirm("Are you sure you want to deny this game?")) {
-      deleteDoc(doc(db, "pendingGames", game.id));
+      deleteDoc(doc(firestore, "pendingGames", game.id));
       deleteObject(ref(storage, `pendingGames/${game.id}`));
       sendEmail(
         game.authorEmail,
@@ -50,56 +52,63 @@ function Admin() {
 
   async function approveGame(game: Game) {
     //replace all spaces with dash and make lowercase
-    const newTitle = game.title.replace(/\s+/g, "-").toLowerCase();
-    // add the game to the approved games collection and delete the game from the pending games collection
+    async function getGameurl() {
+      const newTitle = game.title.replace(/\s+/g, "-").toLowerCase();
 
-    const newGame = await getBytes(
-      ref(storage, `pendFingGames/${game.id}/${newTitle}.zip`)
-    );
-    await uploadBytes(
-      ref(storage, `approvedGames/${game.id}/${newTitle}.zip`),
-      newGame
-    );
-    const newGameUrl = await getDownloadURL(
-      ref(storage, `approvedGames/${game.id}/${newTitle}.zip`)
-    );
+      const newGame = await getBytes(
+        ref(storage, `pendingGames/${game.id}/${newTitle}.zip`)
+      );
+      await uploadBytes(
+        ref(storage, `approvedGames/${game.id}/${newTitle}.zip`),
+        newGame
+      );
+      const newGameUrl = await getDownloadURL(
+        ref(storage, `approvedGames/${game.id}/${newTitle}.zip`)
+      );
+      return newGameUrl;
+    }
 
     //see if the game has a thumbnail
 
     async function getThumbnailUrl() {
-      if (game.thumbnail) {
-        const newThumbnail = await getBytes(
-          ref(storage, `pendingGames/${game.id}/thumbnail.png`)
-        );
-        await uploadBytes(
-          ref(storage, `approvedGames/${game.id}/thumbnail.png`),
-          newThumbnail
-        );
-        const newThumbnailUrl = await getDownloadURL(
-          ref(storage, `approvedGames/${game.id}/thumbnail.png`)
-        );
-        return newThumbnailUrl;
-      } else {
-        return "";
-      }
+      const newThumbnail = await getBytes(
+        ref(storage, `pendingGames/${game.id}/thumbnail.png`)
+      );
+      await uploadBytes(
+        ref(storage, `approvedGames/${game.id}/thumbnail.png`),
+        newThumbnail
+      );
+      const newThumbnailUrl = await getDownloadURL(
+        ref(storage, `approvedGames/${game.id}/thumbnail.png`)
+      );
+      return newThumbnailUrl;
     }
 
-    deleteFolder(`pendingGames/${game.id}`);
-
-    await setDoc(doc(db, "games", game.id), {
-      id: game.id,
-      title: game.title,
-      description: game.description,
-      gameFileUrl: newGameUrl,
-      thumbnail: await getThumbnailUrl(),
-      approvedTime: serverTimestamp(),
+    const object: Game = {
       author: game.author,
       authorName: game.authorName,
-      authorEmail: game.authorEmail,
       authorPhoto: game.authorPhoto,
-    });
+      authorEmail: game.authorEmail,
+      title: game.title,
+      description: game.description,
+      thumbnail: await getThumbnailUrl(),
+      gameFileUrl: await getGameurl(),
+      createdAt: game.createdAt,
+      id: game.id,
+      likedBy: [],
+      downloads: 0,
+      likes: 0,
+      dislikes: 0,
+      views: 0,
+      indexed: false,
+    };
+
+    await setDoc(doc(firestore, "games", game.id), object);
+
+    await createIndex(game.id);
+
     await deleteFolder(`pendingGames/${game.id}`);
-    await deleteDoc(doc(db, "pendingGames", game.id));
+    await deleteDoc(doc(firestore, "pendingGames", game.id));
 
     sendEmail(
       game.authorEmail,
@@ -112,14 +121,14 @@ function Admin() {
 
   useEffect(() => {
     if (selected === "games" && games.length === 0) {
-      getDocs(collection(db, "pendingGames")).then((res) => {
+      getDocs(collection(firestore, "pendingGames")).then((res) => {
         setGames(res.docs.map((doc) => doc.data()) as Game[]);
         console.log(games);
       });
     } else if (selected === "users" && users.length === 0) {
-      getDocs(collection(db, "users")).then((res) => {
+      //get all users
+      getDocs(collection(firestore, "users")).then((res) => {
         setUsers(res.docs.map((doc) => doc.data()) as User[]);
-        console.log(users);
       });
     }
   }, [selected]);

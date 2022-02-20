@@ -1,6 +1,6 @@
-import { auth, db } from "../utils/firebase";
+import { auth, firestore } from "../utils/firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore/lite";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 function SignIn() {
   const googleSignIn = async () => {
@@ -8,9 +8,9 @@ function SignIn() {
     const res = await signInWithPopup(auth, provider);
     const user = res.user;
     //check if user exists in the database
-    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userDoc = await getDoc(doc(firestore, "users", user.uid));
     if (!userDoc.exists()) {
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(firestore, "users", user.uid), {
         uid: user.uid,
         name: user.displayName,
         email: user.email,
@@ -25,7 +25,7 @@ function SignIn() {
   return (
     <div className="flex">
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-4 rounded-3xl text-sm"
+        className="text-white font-bold text-md sm:text-2xl "
         onClick={googleSignIn}
       >
         Sign in
@@ -48,7 +48,7 @@ function SignOut() {
   return (
     <div>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-4 rounded-3xl"
+        className="text-white font-bold text-md sm:text-2xl "
         onClick={googleSignOut}
       >
         Sign Out

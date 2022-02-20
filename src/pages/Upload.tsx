@@ -1,11 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import JSZip from "jszip";
 
-import { storage, db, auth } from "../utils/firebase";
+import { storage, firestore, auth } from "../utils/firebase";
 
 import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 
-import { setDoc, doc, serverTimestamp } from "firebase/firestore/lite";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 import { uid as id } from "uid";
 import sendEmail from "../utils/sendEmail";
@@ -21,11 +21,6 @@ function Upload() {
   const [description, setDescription] = useState("");
   const [gameFiles, setGameFiles] = useState<File[]>([]);
   const [isDone, setIsDone] = useState(false);
-
-  useEffect(() => {
-    console.log(gameFiles);
-    console.log(thumbnail);
-  }, [gameFiles, thumbnail]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -127,36 +122,34 @@ function Upload() {
     const thumbnailURL = await thumbnailUrl;
     const gameFileURL = await gameFileUrl;
 
-    await setDoc(doc(db, `/pendingGames/${cleanTitle}-${ID}`), {
+    await setDoc(doc(firestore, `/pendingGames/${cleanTitle}-${ID}`), {
       id: `${cleanTitle}-${ID}`,
       title,
       description,
       gameFileUrl: gameFileURL,
-      thumbnail: thumbnailURL || "",
+      thumbnail: thumbnailURL,
       author: auth.currentUser?.uid,
       authorPhoto: auth.currentUser?.photoURL,
       authorName: auth.currentUser?.displayName,
       authorEmail: auth.currentUser?.email,
       createdAt: serverTimestamp(),
-      likes: 0,
-      dislikes: 0,
-      views: 0,
-      likedBy: [],
+    });
+    await sendEmail(
+      "lakecreekgames@gmail.com",
+      "New Game Uploaded",
+      `${auth.currentUser?.displayName} has uploaded a new game.`
+    ).then(() => {
+      console.log("email sent");
     });
     setProgress(0);
     setIsDone(true);
-    sendEmail(
-      "lakecreekgames@gmail.com",
-      `${auth.currentUser?.displayName} has submitted a game`,
-      `${auth.currentUser?.displayName} has submitted a game. Please review it and approve it.`
-    );
 
     alert("Thank you for your submission! We will review it shortly.");
     window.location.href = "/";
   };
 
   return currentUser.uid ? (
-    <div className="flex flex-col items-center my-10 text-white">
+    <div className="flex flex-col items-center text-white min-h-screen my-16 sm:my-5">
       {!isDone && progress > 0 && (
         <div className="flex flex-col items-start justify-center fixed h-screen">
           <div className="flex flex-col items-center justify-center bg-purple-500 p-3 rounded-xl shadow-2xl">
@@ -191,7 +184,7 @@ function Upload() {
           </label>
           <input
             placeholder="Title"
-            className="bg-white w-96 max-w-sm p-3 border-2 text-black rounded-2xl"
+            className="bg-white  w-[20rem] sm:w-96 max-w-sm p-3 border-2 text-black rounded-2xl"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -203,7 +196,7 @@ function Upload() {
           </label>
           <textarea
             placeholder="Description"
-            className="bg-white w-96 max-w-sm p-3 border-2 text-black rounded-2xl"
+            className="bg-white w-[20rem] sm:w-96 max-w-sm p-3 border-2 text-black rounded-2xl"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -215,7 +208,7 @@ function Upload() {
           <input
             type="file"
             accept="image/*"
-            className="bg-blue-500 w-96 max-w-sm p-3 text-white text-xl font-bold rounded-2xl hover:bg-blue-900 file:border-0 file:rounded-2xl file:bg-transparent file:text-white"
+            className=" w-[20rem] bg-blue-500 sm:w-96 max-w-sm p-3 text-white text-xl font-bold rounded-2xl hover:bg-blue-900 file:border-0 file:rounded-2xl file:bg-transparent file:text-white"
             onChange={(e) => setThumbnail(e.target.files as any)}
           />
         </div>
@@ -228,7 +221,7 @@ function Upload() {
             //plain blue buttoon
             //disclude any .git .idea .DS_Store .gitignore .gitmodules .vscode .vscodeignore .vscodeignore
             pattern="(?!.*(\.git|\.idea|\.DS_Store|\.gitignore|\.gitmodules|\.vscode|\.vscodeignore|\.vscodeignore)).*"
-            className="bg-blue-500 w-96 max-w-sm p-3 text-white text-xl font-bold rounded-2xl hover:bg-blue-900 file:border-0 file:rounded-2xl file:bg-transparent file:text-white"
+            className=" w-[20rem] bg-blue-500 sm:w-96 max-w-sm p-3 text-white text-xl font-bold rounded-2xl hover:bg-blue-900 file:border-0 file:rounded-2xl file:bg-transparent file:text-white"
             onChange={(e) => setGameFiles(e.target.files as any)}
             //@ts-ignore
             webkitdirectory=""
@@ -237,7 +230,7 @@ function Upload() {
         </div>
         <div className="flex flex-col mt-10">
           <input
-            className="bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold p-3 rounded-2xl disabled:bg-gray-500/40"
+            className=" bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold p-3 rounded-2xl disabled:bg-gray-500/40"
             type="submit"
             disabled={
               !title ||

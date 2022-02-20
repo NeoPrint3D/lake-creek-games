@@ -1,18 +1,9 @@
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import { Suspense, lazy } from "react";
 import { UserProvider } from "./contexts/user";
 import { Routes, Route } from "react-router-dom";
 
-import Header from "./components/Header";
-
-import Home from "./pages/Home";
-
+const Header = lazy(() => import("./components/Header"));
+const Home = lazy(() => import("./pages/Home"));
 const Upload = lazy(() => import("./pages/Upload"));
 const Admin = lazy(() => import("./pages/Admin"));
 
@@ -20,10 +11,9 @@ function App() {
   //make the header always at the top
 
   return (
-    <div className="bg-gradient-to-tr from-blue-500 to-purple-400  overflow-y-auto bg-cover ">
+    <div className="bg-gradient-to-tr from-blue-400 to-purple-400  overflow-y-auto bg-cover ">
       <UserProvider>
         <>
-          <Header />
           <Suspense
             fallback={
               <main>
@@ -31,6 +21,7 @@ function App() {
               </main>
             }
           >
+            <Header />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/Admin" element={<Admin />} />

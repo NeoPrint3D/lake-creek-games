@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useCallback } from "react";
+import { useContext } from "react";
 import { UserContext } from "../contexts/user";
 import { SignIn, SignOut } from "../components/GoogleButtons";
 import { MdCloudUpload, MdSearch } from "react-icons/md";
@@ -13,11 +13,11 @@ function Header() {
   return (
     <Headroom>
       <header
-        className={`w-full grid grid-cols-5 h-24 items-center  rounded-b-xl shadow-2xl bg-gradient `}
+        className={`w-full grid grid-cols-5 h-14 sm:h-20 items-center rounded-b-xl shadow-2xl bg-gradient `}
       >
         <Link
           to="/"
-          className="col-span-3 text-xl sm:text-4xl  font-bold  text-white text-left pl-5"
+          className="col-span-3  pl-5 text-gradient text-xl sm:text-4xl"
         >
           Lake Creek Games
         </Link>
@@ -25,35 +25,40 @@ function Header() {
         <div className="flex justify-end col-span-2">
           {user?.uid ? (
             //if the user is logged in
-            <div className="flex items-center gap-5">
-              <Link to="" className="p-1">
+            <div className="flex items-center gap-1 sm:gap-5">
+              <Link to="/search" className="p-1">
+                <p className="hidden">search</p>
                 <MdSearch
-                  className="text-6xl text-blue-500 hover:text-blue-700  h-8 w-8 sm:w-16 sm:h-16"
+                  className="text-6xl text-blue-400 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
                   size={60}
                 />
               </Link>
               <Link to="/upload" className="p-1">
+                <p className="hidden">upload</p>
                 <MdCloudUpload
-                  className="text-6xl text-blue-500 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
+                  className="text-6xl text-blue-400 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
                   size={60}
                 />
               </Link>
 
-              <div className="mr-2 hover:bg-yellow-200 p-1 rounded-2xl ">
+              <div className="flex items-center mr-2 hover:bg-yellow-200 p-1 rounded-2xl ">
                 <div className="dropdown dropdown-hover dropdown-end">
                   <img
                     src={user.photoURL}
                     alt=""
-                    className=" sm:w-16 sm:h-16 rounded-full"
+                    className="h-8 w-8  sm:w-16 sm:h-16 rounded-full"
                   />
                   <ul
                     tabIndex={0}
-                    className="dropdown-content w-52  p-3 rounded-2xl shadow-2xl  bg-gradient"
+                    className="flex flex-col gap-y-3 dropdown-content w-52  p-3 rounded-2xl shadow-2xl  bg-gradient  "
                   >
                     {user.role === "admin" ||
                       (user.uid === import.meta.env.VITE_ADMIN_UID && (
                         <li className="text-center">
-                          <Link to="/admin" className="text-xl text-white">
+                          <Link
+                            to="/admin"
+                            className="text-white font-bold text-md sm:text-2xl "
+                          >
                             Admin
                           </Link>
                         </li>

@@ -10,9 +10,11 @@ interface Game {
   createdAt: string;
   id: string;
   likedBy: string[];
+  downloads: number;
   likes: number;
   dislikes: number;
   views: number;
+  indexed: boolean;
 }
 interface User {
   uid: string;

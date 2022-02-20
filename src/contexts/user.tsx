@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from "react";
-import { auth, db } from "../utils/firebase";
-import { doc, getDoc } from "firebase/firestore/lite";
+import { auth, firestore } from "../utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 interface Props {
   children: JSX.Element;
@@ -13,6 +13,7 @@ const UserContext = createContext<User>({
   email: "",
   role: "",
   createdAt: "",
+  likedGames: [],
 });
 
 function UserProvider({ children }: Props) {
@@ -22,31 +23,25 @@ function UserProvider({ children }: Props) {
     email: "",
     uid: "",
     role: "",
-    createdAt:"",
+    createdAt: "",
+    likedGames: [],
   });
 
   useEffect(() => {
     auth.onAuthStateChanged((res) => {
       {
-        res
-          ? getDoc(doc(db, "users", res.uid)).then((doc) => {
-              setUser({
-                uid: doc.data()?.uid,
-                name: doc.data()?.name,
-                email: doc.data()?.email,
-                photoURL: doc.data()?.photoURL,
-                role: doc.data()?.role,
-                createdAt: doc.data()?.createdAt,
-              });
-            })
-          : setUser({
-              uid: "",
-              name: "",
-              email: "",
-              photoURL: "",
-              role: "",
-              createdAt: "",
+        res &&
+          getDoc(doc(firestore, "users", res.uid)).then((doc) => {
+            setUser({
+              uid: doc.data()?.uid,
+              name: doc.data()?.name,
+              email: doc.data()?.email,
+              photoURL: doc.data()?.photoURL,
+              role: doc.data()?.role,
+              createdAt: doc.data()?.createdAt,
+              likedGames: doc.data()?.likedGames,
             });
+          });
       }
     });
   }, [auth.currentUser]);
