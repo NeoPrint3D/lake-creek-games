@@ -133,6 +133,8 @@ function Upload() {
       authorName: auth.currentUser?.displayName,
       authorEmail: auth.currentUser?.email,
       createdAt: serverTimestamp(),
+      exePresent: false,
+      exeUrl: "",
     });
     await sendEmail(
       "lakecreekgames@gmail.com",

@@ -17,6 +17,7 @@ function SignIn() {
         photoURL: user.photoURL,
         role: "user",
         createdAt: serverTimestamp(),
+        likedGames: [],
       });
       window.location.href = "/";
     }

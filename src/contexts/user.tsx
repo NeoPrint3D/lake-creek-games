@@ -44,7 +44,7 @@ function UserProvider({ children }: Props) {
           });
       }
     });
-  }, [auth.currentUser]);
+  }, []);
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
