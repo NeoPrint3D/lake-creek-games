@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.font-refuni {
-  font-family: "Rufina", serif;
+em {
+  @apply bg-blue-400;
 }
 
 ::-webkit-scrollbar {
@@ -33,22 +33,45 @@ main {
   @apply bg-gradient-to-b from-yellow-400 to-yellow-300;
 }
 
-.bounce-in {
-  animation: bounce-in 0.5s ease-in-out;
+.fade-in {
+  animation-delay: 0.5s;
+  animation: fade-in 1.5s ease-in-out;
 }
 
 .text-gradient {
   @apply font-extrabold  text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400;
 }
 
-@keyframes bounce-in {
+.roll-in {
+  animation: roll-in 1.75s ease-in-out;
+}
+
+@keyframes roll-in {
   0% {
-    transform: translateY(20px);
+    box-shadow: 0px 0px 0px 2.5rem rgb(96, 165, 250, 0.7);
+    transform: translateX(-42.5rem) rotate(-360deg);
   }
-  50% {
-    transform: translateY(-10px);
+  75% {
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.7);
+    transform: translateX(0) rotate(0);
+  }
+  80% {
+    box-shadow: 0px 0px 0px 5rem rgb(255, 255, 255, 1);
+    transform: translateX(0) rotate(0);
   }
   100% {
-    transform: translateY(0);
+    box-shadow: 0px 0px 0px 0rem rgb(96, 165, 250, 1);
+    transform: translateX(0) rotate(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    scale: 0;
+    opacity: 0;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
   }
 }

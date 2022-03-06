@@ -9,7 +9,6 @@ import Headroom from "react-headroom";
 function Header() {
   const user = useContext(UserContext);
   //add sticky to the header when the user scrolls up uing react hooks
-
   return (
     <Headroom>
       <header
@@ -52,17 +51,21 @@ function Header() {
                     tabIndex={0}
                     className="flex flex-col gap-y-3 dropdown-content w-52  p-3 rounded-2xl shadow-2xl  bg-gradient  "
                   >
-                    {user.role === "admin" ||
-                      (user.uid === import.meta.env.VITE_ADMIN_UID && (
-                        <li className="text-center">
-                          <Link
-                            to="/admin"
-                            className="text-white font-bold text-md sm:text-2xl "
-                          >
-                            Admin
-                          </Link>
-                        </li>
-                      ))}
+
+                    {(user?.role === "admin" || user?.uid === import.meta.env.VITE_ADMIN_UID) && (
+
+
+                      <div className="flex justify-center">
+                        <Link
+                          to="/admin"
+                          className="text-white font-bold text-md sm:text-2xl "
+                        >
+                          Admin
+                        </Link>
+                      </div>
+                    )}
+
+
                     <div className="flex justify-center">
                       <SignOut />
                     </div>

@@ -20,9 +20,13 @@ import {
   FaDownload,
 } from "react-icons/fa";
 
+
+
 function PreviewGame({ game }: { game: Game }) {
   const user = useContext<User>(UserContext);
   const [liked, setLiked] = useState(false);
+
+
 
   useEffect(() => {
     user.likedGames.includes(game.id) && setLiked(true);
@@ -57,32 +61,31 @@ function PreviewGame({ game }: { game: Game }) {
       >
         <FaCircle
           size={25}
-          className={`  ${
-            game.indexed ? "text-green-400/80" : "text-red-500/80"
-          }`}
+          className={`  ${game.indexed ? "text-green-400/80" : "text-red-500/80"
+            }`}
         ></FaCircle>
       </div>
 
       <div className="grid grid-rows-5 items-center p-3 col-span-3">
         <div className="flex flex-col items-center row-span-2">
           <div className="flex justify-center items-center">
-            <h1 className="text-2xl sm:text-5xl font-bold font-refuni">
+            <Link to={`/games/${game.id}`} className="text-2xl sm:text-5xl font-bold font-refuni">
               {`${game.title}`.replace(/\w\S*/g, (txt) => {
                 return (
                   txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
                 );
               })}
-            </h1>
+            </Link>
           </div>
           <div className="flex justify-center items-center gap-3">
             <h5 className=" sm:text-xl font-refuni font-bold">
               By: {game.authorName}
             </h5>
-              <img
-                src={game.authorPhoto}
-                className="rounded-full h-6 w-6 sm:h-10 sm:w-10 "
-                alt=""
-              />
+            <img
+              src={game.authorPhoto}
+              className="rounded-full h-6 w-6 sm:h-10 sm:w-10 "
+              alt=""
+            />
           </div>
         </div>
 
@@ -96,11 +99,10 @@ function PreviewGame({ game }: { game: Game }) {
             <h5 className="text-3xl font-extrabold">{game.likes}</h5>
             <FaHeart
               size={30}
-              className={`transition-all group-disabled:text-slate-400/90 text-white h-8 w-8 sm:w-10 sm:h-12 active:scale-90 ${
-                liked
+              className={`transition-all group-disabled:text-slate-400/90 text-white h-8 w-8 sm:w-10 sm:h-12 active:scale-90 ${liked
                   ? "text-red-400 group-disabled:scale-100 hover:scale-95"
                   : "text-white group-disabled:scale-100 hover:scale-105"
-              }`}
+                }`}
             />
           </button>
 
@@ -124,7 +126,7 @@ function PreviewGame({ game }: { game: Game }) {
           alt={game.title}
           src={game.thumbnail}
           placeholder={placeholder}
-          className=" transition-transform max-w-24 w-auto h-auto rounded-r-xls hover:scale-95"
+          className=" transition-transform max-w-24 w-auto h-auto rounded-r-xls hover:scale-95 fade-in"
         />
       </Link>
     </div>

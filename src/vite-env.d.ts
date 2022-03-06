@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_HASH_KEY: string;
   readonly VITE_EMAIL_API_KEY: string;
   readonly VITE_API_SYNC_KEY: string;
+  readonly VITE_ALGOLIA_APP_ID: string;
+  readonly VITE_ALGOLIA_API_KEY: string;
 }
 
 interface ImportMeta {
