@@ -26,7 +26,7 @@ function SignIn() {
   return (
     <div className="flex">
       <button
-        className="text-white font-bold text-md sm:text-2xl "
+        className="text-white font-bold  "
         onClick={googleSignIn}
       >
         Sign in
@@ -49,7 +49,7 @@ function SignOut() {
   return (
     <div>
       <button
-        className="text-white font-bold text-md sm:text-2xl "
+        className="text-white font-bold "
         onClick={googleSignOut}
       >
         Sign Out

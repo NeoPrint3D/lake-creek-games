@@ -21,7 +21,7 @@ export default function Search() {
     const results = useSearchResults(search)
 
     return (
-        <div className='min-h-screen '>
+        <>
             <div className="flex justify-center my-16 text-black p-3">
                 <input type="search" placeholder="Type in more than three charcters" className="w-full max-w-sm  md:max-w-2xl px-5 py-5 rounded-l-full" onChange={(e) => setSearch(e.target.value)} />
                 <div className="transition-all flex justify-center items-center bg-yellow-300 rounded-r-full ">
@@ -50,6 +50,6 @@ export default function Search() {
 
             </div>
 
-        </div>
+        </>
     );
 }

@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --header-height: 5rem;
+}
+
 em {
   @apply bg-blue-400;
 }
@@ -21,8 +25,8 @@ em {
   @apply bg-blue-400 rounded-2xl hover:bg-blue-600;
 }
 
-main {
-  @apply h-screen flex justify-center items-center;
+.main {
+ min-height: calc(100vh - var(--header-height));
 }
 
 .input-container {

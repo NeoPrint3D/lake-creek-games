@@ -11,8 +11,8 @@ function Header() {
   //add sticky to the header when the user scrolls up uing react hooks
   return (
     <Headroom>
-      <header
-        className={`w-full grid grid-cols-5 h-14 sm:h-20 items-center rounded-b-xl shadow-2xl bg-gradient `}
+      <nav
+        className={`w-full grid grid-cols-5 h-20 items-center rounded-b-xl shadow-2xl bg-gradient `}
       >
         <Link
           to="/"
@@ -66,7 +66,7 @@ function Header() {
                     )}
 
 
-                    <div className="flex justify-center">
+                    <div className="flex justify-center text-md sm:text-2xl">
                       <SignOut />
                     </div>
                   </ul>
@@ -76,17 +76,19 @@ function Header() {
           ) : (
             //non logged in user
             <div className="flex items-center mr-5 gap-5">
-              <Link to="" className="p-1">
+              <Link to="/search" className="p-1">
                 <MdSearch
                   className="text-6xl text-blue-500 hover:text-blue-700  h-8 w-8 sm:w-16 sm:h-16"
                   size={60}
                 />
               </Link>
-              <SignIn />
+              <div className="text-md sm:text-2xl">
+                <SignIn />
+              </div>
             </div>
           )}
         </div>
-      </header>
+      </nav>
     </Headroom>
   );
 }

@@ -2,25 +2,23 @@ import { Suspense, lazy } from "react";
 import { UserProvider } from "./contexts/user";
 import { Routes, Route } from "react-router-dom";
 
-import Header from "./components/Header";
-import Home from "./pages/Home";
-
+const Home = lazy(() => import("./pages/Home"));
+const Header = lazy(() => import("./components/Header"));
 const Search = lazy(() => import("./pages/Search"));
 const Upload = lazy(() => import("./pages/Upload"));
 const Admin = lazy(() => import("./pages/Admin"));
 
-function App() {
+export default function App() {
   //make the header always at the top
-
   return (
-    <div className="bg-gradient-to-tr from-blue-400 to-purple-400  overflow-y-auto bg-cover ">
+    <div className="bg-gradient-to-tr from-blue-400 to-purple-400  overflow-y-auto bg-cover min-h-screen">
       <UserProvider>
         <>
           <Suspense
             fallback={
-              <main>
+              <div className="flex justify-center items-center main">
                 <h5 className="animate-bounce text-5xl">Loading...</h5>
-              </main>
+              </div>
             }
           >
             <Header />
@@ -29,6 +27,12 @@ function App() {
               <Route path="/Admin" element={<Admin />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/search" element={<Search />} />
+
+              <Route path="*" element={
+                <div className="flex items-center justify-center main">
+                  <h1 className="text-9xl">404</h1>
+                </div>
+              } />
             </Routes>
           </Suspense>
         </>
@@ -37,4 +41,3 @@ function App() {
   );
 }
 
-export default App;

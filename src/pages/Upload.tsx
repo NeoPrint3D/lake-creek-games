@@ -11,6 +11,7 @@ import { uid as id } from "uid";
 import sendEmail from "../utils/sendEmail";
 
 import { UserContext } from "../contexts/user";
+import { SignIn } from "../components/GoogleButtons";
 //import the id library
 
 function Upload() {
@@ -151,7 +152,7 @@ function Upload() {
   };
 
   return currentUser.uid ? (
-    <div className="flex flex-col items-center text-white min-h-screen my-16 sm:my-5">
+    <div className="flex flex-col items-center text-white my-16 sm:my-5">
       {!isDone && progress > 0 && (
         <div className="flex flex-col items-start justify-center fixed h-screen">
           <div className="flex flex-col items-center justify-center bg-purple-500 p-3 rounded-xl shadow-2xl">
@@ -245,10 +246,10 @@ function Upload() {
       </form>
     </div>
   ) : (
-    <div className="flex flex-col items-center justify-center min-h-screen -translate-y-10">
-      <h1 className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4">
-        You are not authorized to view this page
-      </h1>
+    <div className="flex flex-col items-center justify-center main ">
+      <div className="transition-all bg-blue-300 hover:bg-blue-100 active:bg-blue-500 active:scale-90 rounded-full px-10 py-7 text-5xl">
+        <SignIn />
+      </div>
     </div>
   );
 }
