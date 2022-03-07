@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { firestore } from "../utils/firebase";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../contexts/user";
-import { createIndex, deleteIndex } from "../utils/indexer";
 import {
   updateDoc,
   doc,

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "tsc && vite build && vite preview",
     "deploy": "tsc && vite build && firebase deploy"
@@ -26,6 +26,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@unlighthouse/vite": "^0.3.5",
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.6",

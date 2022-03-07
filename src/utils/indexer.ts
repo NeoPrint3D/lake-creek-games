@@ -1,7 +1,9 @@
 import { encrypt } from "./encryption";
 
 async function createIndex(id: String) {
-  fetch("https://lakecreekgames-neoprint3d.vercel.app/createIndex", {
+  const prod_url = "https://lakecreekgames-neoprint3d.vercel.app/createIndex";
+  // const test_url = "http://localhost:8080/createIndex";
+  fetch(prod_url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
