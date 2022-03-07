@@ -25,17 +25,15 @@ function Header() {
           {user?.uid ? (
             //if the user is logged in
             <div className="flex items-center gap-1 sm:gap-5">
-              <Link to="/search" className="p-1">
-                <p className="hidden">search</p>
+              <Link to="/search" aria-label="Search" className="p-1">
                 <MdSearch
-                  className="text-6xl text-blue-400 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
+                  className="text-6xl text-blue-400 hover:text-blue-200 active:text-blue-700 active:scale-90 h-8 w-8 sm:w-16 sm:h-16 hover:scale-110 duration-500"
                   size={60}
                 />
               </Link>
-              <Link to="/upload" className="p-1">
-                <p className="hidden">upload</p>
+              <Link to="/upload" aria-label="Upload"  className="p-1">
                 <MdCloudUpload
-                  className="text-6xl text-blue-400 hover:text-blue-700 h-8 w-8 sm:w-16 sm:h-16"
+                  className="text-6xl text-blue-400 hover:text-blue-200 active:text-blue-700 active:scale-90 h-8 w-8 sm:w-16 sm:h-16 hover:scale-110 duration-500"
                   size={60}
                 />
               </Link>

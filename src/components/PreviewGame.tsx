@@ -66,7 +66,7 @@ function PreviewGame({ game }: { game: Game }) {
 
       <div className="grid grid-rows-5 items-center p-3 col-span-3">
         <div className="flex flex-col items-center row-span-2">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center mb-3">
             <Link to={`/games/${game.id}`} className="text-2xl sm:text-5xl font-bold font-refuni">
               {`${game.title}`.replace(/\w\S*/g, (txt) => {
                 return (
@@ -98,8 +98,8 @@ function PreviewGame({ game }: { game: Game }) {
             <FaHeart
               size={30}
               className={`transition-all group-disabled:text-slate-400/90 text-white h-8 w-8 sm:w-10 sm:h-12 active:scale-90 ${liked
-                  ? "text-red-400 group-disabled:scale-100 hover:scale-95"
-                  : "text-white group-disabled:scale-100 hover:scale-105"
+                ? "text-red-400 group-disabled:scale-100 hover:scale-95"
+                : "text-white group-disabled:scale-100 hover:scale-105"
                 }`}
             />
           </button>
@@ -121,6 +121,8 @@ function PreviewGame({ game }: { game: Game }) {
         to={`/game/${game.id}`}
       >
         <Img
+          height={300}
+          width={300}
           alt={game.title}
           src={game.thumbnail}
           placeholder={placeholder}
