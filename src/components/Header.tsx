@@ -10,9 +10,9 @@ function Header() {
   const user = useContext(UserContext);
   //add sticky to the header when the user scrolls up uing react hooks
   return (
-    <Headroom>
+    <Headroom >
       <nav
-        className={`w-full grid grid-cols-5 h-20 items-center rounded-b-xl shadow-2xl bg-gradient `}
+        className={`w-full grid grid-cols-5 h-20 items-center rounded-b-xl shadow-2xl bg-gradient  `}
       >
         <Link
           to="/"

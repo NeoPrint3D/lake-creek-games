@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
+:root {
   --header-height: 5rem;
 }
 
@@ -17,7 +17,7 @@ em {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  @apply bg-gradient-to-b from-yellow-500 via-yellow-500 to-yellow-300;
+  @apply bg-yellow-300;
 }
 
 /* Handle */
@@ -26,7 +26,7 @@ em {
 }
 
 .main {
- min-height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
 }
 
 .input-container {
@@ -77,5 +77,44 @@ em {
   100% {
     scale: 1;
     opacity: 1;
+  }
+}
+
+.loader-anim {
+  animation: loader-anim 6s infinite;
+}
+
+@keyframes loader-anim {
+  0% {
+    color: rgb(253 224 71);
+    transform: rotate(0deg) scale(1) translateX(0);
+  }
+  12.5% {
+    color: rgb(255, 255, 255);
+  }
+  25% {
+    color: rgb(37 99 235);
+    transform: rotate(360deg) scale(1.75) translateX(0);
+  }
+  37.5% {
+    color: rgb(255, 255, 255);
+  }
+  50% {
+    color: rgb(253 224 71);
+    transform: rotate(720deg) scale(1.5) translateX(5rem);
+  }
+  62.5% {
+    color: rgb(255, 255, 255);
+  }
+  75% {
+    color: rgb(37 99 235);
+    transform: rotate(1080deg) scale(1) translateX(0);
+  }
+  87.5% {
+    color: rgb(255, 255, 255);
+  }
+  100% {
+    color: rgb(253 224 71);
+    transform: rotate(1440deg) scale(1) translateX(0);
   }
 }

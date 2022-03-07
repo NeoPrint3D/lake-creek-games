@@ -21,7 +21,9 @@ export default function App() {
               </div>
             }
           >
-            <Header />
+            <div className="z-50">
+              <Header />
+            </div>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/Admin" element={<Admin />} />

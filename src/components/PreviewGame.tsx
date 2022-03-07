@@ -14,7 +14,6 @@ import placeholder from "../assets/placeholder.png";
 import {
   FaHeart,
   FaCircle,
-  FaThumbsUp,
   FaEye,
   FaDownload,
 } from "react-icons/fa";
@@ -53,9 +52,9 @@ function PreviewGame({ game }: { game: Game }) {
   };
 
   return (
-    <div className="grid grid-cols-5 bg-gradient text-white rounded-xl min-h-[10rem] sm:min-h-[15em] indicator p-5">
+    <div className="grid grid-cols-5 bg-gradient text-white rounded-xl min-h-[10rem] sm:min-h-[15em] indicator p-5 w-11/12 justify-self-center z-0">
       <div
-        className=" indicator-item indicator-start tooltip tooltip-right tooltip-white"
+        className=" indicator-item indicator-start tooltip tooltip-right tooltip-white "
         data-tip={game.indexed ? "indexed" : "not indexed"}
       >
         <FaCircle
