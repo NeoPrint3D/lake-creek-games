@@ -42,7 +42,9 @@ function Header() {
                 <div className="dropdown dropdown-hover dropdown-end">
                   <img
                     src={user.photoURL}
-                    alt=""
+                    alt="user profile picture"
+                    height={300}
+                    width={300}
                     className="h-8 w-8  sm:w-16 sm:h-16 rounded-full"
                   />
                   <ul
@@ -74,7 +76,7 @@ function Header() {
           ) : (
             //non logged in user
             <div className="flex items-center mr-5 gap-5">
-              <Link to="/search" className="p-1">
+              <Link to="/search" aria-label="Search" className="p-1">
                 <MdSearch
                   className="text-6xl text-blue-500 hover:text-blue-700  h-8 w-8 sm:w-16 sm:h-16"
                   size={60}

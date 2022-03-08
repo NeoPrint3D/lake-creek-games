@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "tsc && vite build && vite preview",
     "deploy": "tsc && vite build && firebase deploy"
@@ -32,6 +32,7 @@
     "postcss": "^8.4.6",
     "tailwindcss": "^3.0.21",
     "typescript": "^4.5.4",
-    "vite": "^2.8.0"
+    "vite": "^2.8.0",
+    "vite-plugin-pwa": "^0.11.13"
   }
 }
