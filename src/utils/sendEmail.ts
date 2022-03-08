@@ -11,11 +11,12 @@ async function sendEmail(to: String, subject: String, message: String) {
         import.meta.env.VITE_EMAIL_API_KEY,
         import.meta.env.VITE_HASH_KEY
       ),
-      recipients: encrypt(to, import.meta.env.VITE_HASH_KEY),
+      to: encrypt(to, import.meta.env.VITE_HASH_KEY),
       subject: encrypt(subject, import.meta.env.VITE_HASH_KEY),
       message: encrypt(message, import.meta.env.VITE_HASH_KEY),
     }),
   });
+  console.log(res.status)
   return res.json();
 }
 
