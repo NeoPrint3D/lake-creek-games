@@ -112,8 +112,8 @@ function Admin() {
 
     sendEmail(
       game.authorEmail,
-      "Your game request has been approved",
-      `Your game request for ${game.title} has been approved if you have any questions please email lakecreekgames@gmail.com.`
+      "Your game request has been approved", //subject
+      `Your game request for ${game.title} has been approved if you have any questions please email lakecreekgames@gmail.com.` //content
     );
     //remove the game from the dom
     setGames(games.filter((g) => g.id !== game.id));
@@ -152,7 +152,7 @@ function Admin() {
             {selected === "games" ? (
               <div className="flex flex-col items-center justify-center">
                 {games.map((game) => (
-                  <div className="flex flex-col my-5">
+                  <div className="flex flex-col my-5" key={game.id}>
                     <div className="flex justify-center">
                       <h1 className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4">
                         {game.title}
@@ -177,7 +177,7 @@ function Admin() {
             ) : (
               <div className="flex flex-col items-center">
                 {users.map((user) => (
-                  <div className="flex flex-col my-5 bg-yellow-500 w-3/4 p-5 rounded-2xl">
+                  <div className="flex flex-col my-5 bg-yellow-500 w-3/4 p-5 rounded-2xl" key={user.uid}>
                     <div className="flex justify-center">
                       <h1 className="text-xl font-bold text-center text-black bg-yellow-300 border-2 border-yellow-500 rounded-full py-2 px-4">
                         {user.name}

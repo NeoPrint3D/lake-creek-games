@@ -12,7 +12,6 @@ export default function useSearchResults(search: string) {
     const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
-        console.log("searching for: ", search);
         getResults();
     }, [search])
 
@@ -36,7 +35,6 @@ export default function useSearchResults(search: string) {
                 ],
                 hitsPerPage: 10,
             })
-            console.log(searchResults.hits);
             setResults(searchResults.hits);
         }
     }
