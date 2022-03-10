@@ -10,6 +10,7 @@
     "test": "node test.js"
   },
   "dependencies": {
-    "axios": "^0.26.1"
+    "axios": "^0.26.1",
+    "crypto-js": "^4.1.1"
   }
 }
