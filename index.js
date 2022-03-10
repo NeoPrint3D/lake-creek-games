@@ -24,4 +24,8 @@ axios.post('https://lakecreekgames-neoprint3d.vercel.app/cronIndex', {
     api_key: encrypt(
         api_key, hash_key
     ),
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.log(err);
 })
