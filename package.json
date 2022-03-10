@@ -1,0 +1,11 @@
+{
+  "name": "cron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Drew <drew@ronsman.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.26.1"
+  }
+}
