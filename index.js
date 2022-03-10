@@ -7,6 +7,8 @@ const hash_key = process.env.HASH_KEY;
 
 console.log(api_key, hash_key);
 
+console.log('test')
+
 function encrypt(hash, key) {
     try {
         let bytes = cryptojs.AES.encrypt(JSON.stringify(hash), key);
