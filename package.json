@@ -5,6 +5,9 @@
   "author": "Drew <drew@ronsman.com>",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "axios": "^0.26.1"
   }
