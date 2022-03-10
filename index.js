@@ -18,8 +18,8 @@ function encrypt(hash, key) {
 
 
 
-// axios.post('https://lakecreekgames-neoprint3d.vercel.app/cronIndex', {
-//     api_key: encrypt(
-//         api_key, hash_key
-//     ),
-// })
+axios.post('https://lakecreekgames-neoprint3d.vercel.app/cronIndex', {
+    api_key: encrypt(
+        api_key, hash_key
+    ),
+})
