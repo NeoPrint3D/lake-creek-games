@@ -1,7 +1,6 @@
 name: Run Node.js script on a schedule
 
 on:
-  push:
   schedule:
     - cron: "* * * * *"
 
