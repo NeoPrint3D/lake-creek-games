@@ -2,6 +2,7 @@ name: Run Node.js script on a schedule
 
 on:
   push:
+    branches: [ cron ]
   schedule:
     - cron: "0 16 * * 1"
 
